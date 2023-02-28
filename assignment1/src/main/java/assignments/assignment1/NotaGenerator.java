@@ -1,5 +1,7 @@
 package assignments.assignment1;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class NotaGenerator {
@@ -19,8 +21,7 @@ public class NotaGenerator {
 
             if(pilihan.equals("1") || pilihan.equals("2")){
                 System.out.println("Masukkan nama Anda :");
-                String nama = input.next();
-                input.nextLine();
+                String nama = input.nextLine();
                 System.out.println("Masukkan nomor handphone Anda:");
                 String noHandphone = validasiAngka("Validasi HP", "Nomor HP hanya menerima digit");
                 if (pilihan.equals("1")){
@@ -46,7 +47,8 @@ public class NotaGenerator {
                     }
                     System.out.println("Masukkan berat cucian Anda [Kg]");
                     String beratCucian = validasiAngka("Validasi Berat", "Harap masukkan berat cucian Anda dalam bentuk bilangan positif.");
-                    System.out.println(generateNota(id, paketLaundry, beratCucian, tanggalTerima));
+                    int berat = Integer.parseInt(beratCucian);
+                    System.out.println(generateNota(id, paketLaundry, berat, tanggalTerima));
                 }
             }
             else if(pilihan.equals("2")){
@@ -92,8 +94,10 @@ public class NotaGenerator {
      */
     public static String generateId(String nama, String nomorHP){
         // TODO: Implement generate ID sesuai soal.
+        String[] namaSplitted = nama.split(" ");
+        String namaDepan = namaSplitted[0];
         int checksum = 0;
-        String gabunganNamaHP = nama.toUpperCase() + "-" + nomorHP;
+        String gabunganNamaHP = namaDepan.toUpperCase() + "-" + nomorHP;
         for(int i = 0; i < gabunganNamaHP.length(); i++){
             if(gabunganNamaHP.charAt(i) >= 65 && gabunganNamaHP.charAt(i) <= 90){
                 checksum += gabunganNamaHP.charAt(i) - 'A' + 1;
@@ -122,30 +126,37 @@ public class NotaGenerator {
      *         <p>Tanggal Selesai : [tanggalTerima + LamaHariPaket]
      */
 
-    public static String generateNota(String id, String paket, String berat, String tanggalTerima){
+    public static String generateNota(String id, String paket, int berat, String tanggalTerima){
         // TODO: Implement generate nota sesuai soal.
         int hargaPaketPerKg = 0;
-        int 
+        int waktuPengerjaan = 0;
         if (paket.equals("express")){
             hargaPaketPerKg = 12000;
-            
+            waktuPengerjaan = 1;
         }
         else if(paket.equals("fast")){
             hargaPaketPerKg = 10000;
+            waktuPengerjaan = 2;
         }
         else if(paket.equals("reguler")){
             hargaPaketPerKg = 7000;
+            waktuPengerjaan = 3;
         }
 
-        if(Integer.parseInt(berat) < 2){
-            berat = "2";
+        if(berat < 2){
+            berat = 2;
             System.out.println("Cucian kurang dari 2 kg, maka cucian akan dianggap sebagai 2 kg");
         }
 
-        int totalHarga = hargaPaketPerKg * Integer.parseInt(berat);
-        String tanggalSelesai = "";
+        int totalHarga = hargaPaketPerKg * berat;
+
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate tanggalTerimaFormatted = LocalDate.parse(tanggalTerima, dateFormat);
+        LocalDate tanggalSelesaiFormatted = tanggalTerimaFormatted.plusDays(waktuPengerjaan);
+        String tanggalSelesai = tanggalSelesaiFormatted.format(dateFormat);
+        
         System.out.println("Nota Laundry");
-        return String.format("ID    : %s%nPaket : %s%nHarga :%n%s kg x %d = %d%nTanggal Terima  : %s%nTanggal Selesai : %s", id, paket, berat, hargaPaketPerKg, totalHarga, tanggalTerima, tanggalSelesai);
+        return "ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + hargaPaketPerKg + " = " + totalHarga + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
     }
 
     public static String validasiAngka(String opsi, String errorMessage){
