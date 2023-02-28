@@ -32,7 +32,7 @@ public class NotaGenerator {
                         if(paketLaundry.equals("?")){ // Memunculkan paket laundry yang tersedia
                             showPaket();
                         }
-                        else if(!paketLaundry.equals("express") && !paketLaundry.equals("fast") && !paketLaundry.equals("reguler")){ // Jika paket yang di input tidak diketahui
+                        else if(!paketLaundry.equalsIgnoreCase("express") && !paketLaundry.equalsIgnoreCase("fast") && !paketLaundry.equalsIgnoreCase("reguler")){ // Jika paket yang di input tidak diketahui
                             System.out.println("Paket " + paketLaundry + " tidak diketahui\n[ketik ? untuk mencari tahu jenis paket]");
                         }
                         else{ // Jika paket laundry sudah valid, keluar dari loop
@@ -87,7 +87,7 @@ public class NotaGenerator {
                 checksum += 7;
             }
         }
-        return String.format("%s-%02d", gabunganNamaHP, checksum);
+        return String.format("%s-%02d", gabunganNamaHP, checksum % 100);
     }
     // Method untuk generate nota
     public static String generateNota(String id, String paket, int berat, String tanggalTerima){
