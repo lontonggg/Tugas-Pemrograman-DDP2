@@ -93,15 +93,15 @@ public class NotaGenerator {
     public static String generateNota(String id, String paket, int berat, String tanggalTerima){
         int hargaPaketPerKg = 0;
         int waktuPengerjaan = 0;
-        if (paket.equals("express")){
+        if (paket.equalsIgnoreCase("express")){
             hargaPaketPerKg = 12000;
             waktuPengerjaan = 1;
         }
-        else if(paket.equals("fast")){
+        else if(paket.equalsIgnoreCase("fast")){
             hargaPaketPerKg = 10000;
             waktuPengerjaan = 2;
         }
-        else if(paket.equals("reguler")){
+        else if(paket.equalsIgnoreCase("reguler")){
             hargaPaketPerKg = 7000;
             waktuPengerjaan = 3;
         }
@@ -128,7 +128,7 @@ public class NotaGenerator {
             for(int i = 0; i < angka.length(); i++){
                 if(Character.isDigit(angka.charAt(i))){ // Mengiterasi setiap digit di dan cek apakah digit atau bukan
                     angkaValid = true;
-                    if(opsi.equals("Validasi Berat") && angka.charAt(i) <= 0){ // Jika memvalidasi berat, maka angka harus > 0
+                    if(opsi.equals("Validasi Berat") && Character.getNumericValue(angka.charAt(i)) <= 0){ // Jika memvalidasi berat, maka angka harus > 0
                         System.out.println(errorMessage);
                         angkaValid = false;
                         break; // Break dari for loop dan kembali ke awal while loop
