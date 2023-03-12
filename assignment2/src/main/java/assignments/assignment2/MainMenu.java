@@ -1,17 +1,13 @@
 package assignments.assignment2;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Scanner;
-
-import static assignments.assignment1.NotaGenerator.*;
 
 public class MainMenu {
     private static final Scanner input = new Scanner(System.in);
     private static SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy");
     private static Calendar cal = Calendar.getInstance();
-    private static Nota[] notaList;
+    private static Nota[] notaList = new Nota[0];
     private static Member[] memberList = new Member[0];
 
     public static void main(String[] args) {
@@ -34,18 +30,17 @@ public class MainMenu {
         }
         System.out.println("Terima kasih telah menggunakan NotaGenerator!");
     }
-
     private static void handleGenerateUser() { 
         // Mengambil input nama dan no HP, serta membuat object Member baru
         System.out.println("Masukan nama Anda:");
         String nama = input.nextLine();
         System.out.println("Masukan nomor handphone Anda:");
-        String noHp = validasiAngka("Validasi HP", "Nomor HP hanya menerima digit");
+        String noHp = validasiAngka("Validasi HP", "Field nomor HP hanya menerima digit");
         Member newMember = new Member(nama, noHp);
         // Cek apakah member sudah pernah terdaftar atau belum
         boolean memberDouble = false;
         for(Member member: memberList){
-            if(member.getNama().equals(newMember.getNama()) && member.getNoHp().equals(newMember.getNoHp())){
+            if(member.getId().equals(newMember.getId())){
                 System.out.printf("Member dengan nama %s dan nomor hp %s sudah ada!%n", nama, noHp);
                 memberDouble = true;
                 break;
@@ -58,37 +53,31 @@ public class MainMenu {
             newMemberList[newMemberList.length-1] = newMember;
             memberList = newMemberList;
             System.out.printf("Berhasil membuat member dengan id %s!%n", newMember.getId());
-            System.out.println(Arrays.toString(memberList));
         }
     }
-
     private static void handleGenerateNota() {
         // TODO: handle ambil cucian
         System.out.println("Masukkan ID member:");
         String id = input.nextLine();
         Member member = null;
         boolean memberAda = false;
-        for(Member members: memberList){
-            if(members.getId() == id){
+        for(Member members: memberList){ // Cek apakah member terdaftar
+            if(members.getId().equals(id)){
                 member = members;
                 memberAda = true;
                 break;
             }
-            else{
-                System.out.printf("Member dengan id %s tidak ditemukan!%n", id);
-            }
         }
-
         if(memberAda){
-            String paketLaundry = "";
+            String paketCucian = "";
             while(true){ // Memvalidasi paket laundry
                 System.out.println("Masukkan paket laundry:");
-                paketLaundry = input.nextLine();
-                if(paketLaundry.equals("?")){ // Memunculkan paket laundry yang tersedia
+                paketCucian = input.nextLine();
+                if(paketCucian.equals("?")){ // Memunculkan paket laundry yang tersedia
                     showPaket();
                 }
-                else if(!paketLaundry.equalsIgnoreCase("express") && !paketLaundry.equalsIgnoreCase("fast") && !paketLaundry.equalsIgnoreCase("reguler")){ // Jika paket yang di input tidak diketahui
-                    System.out.println("Paket " + paketLaundry + " tidak diketahui\n[ketik ? untuk mencari tahu jenis paket]");
+                else if(!paketCucian.equalsIgnoreCase("express") && !paketCucian.equalsIgnoreCase("fast") && !paketCucian.equalsIgnoreCase("reguler")){ // Jika paket yang di input tidak diketahui
+                    System.out.println("Paket " + paketCucian + " tidak diketahui\n[ketik ? untuk mencari tahu jenis paket]");
                 }
                 else{ // Jika paket laundry sudah valid, keluar dari loop
                     break;
@@ -97,38 +86,107 @@ public class MainMenu {
             System.out.println("Masukkan berat cucian Anda [Kg]"); 
             String beratCucian = validasiAngka("Validasi Berat", "Harap masukkan berat cucian Anda dalam bentuk bilangan positif."); // Mengambil input berat dan memvalidasinya
             int berat = Integer.parseInt(beratCucian); // Convert berat menjadi integer
-            Nota nota = new Nota(member, paketLaundry, berat, fmt.format(cal.getTime()));
+            Nota nota = new Nota(member, paketCucian, berat, fmt.format(cal.getTime()));
+            System.out.println(nota.generateNota(member.getId(), nota.getPaket(), nota.getBerat(), nota.getTanggalMasuk()));
+            Nota[] newNotaList = new Nota[notaList.length + 1];
+            System.arraycopy(notaList, 0, newNotaList, 0, notaList.length);
+            newNotaList[newNotaList.length-1] = nota;
+            notaList = newNotaList;
+        }
+        else{
+            System.out.printf("Member dengan id %s tidak ditemukan!%n", id);
         }
     }
-
     private static void handleListNota() {
         // TODO: handle list semua nota pada sistem
         if(notaList.length == 0){
             System.out.println("Terdaftar 0 nota dalam sistem.");
         }
+        else{
+            System.out.printf("Terdaftar %d nota dalam sistem.%n", notaList.length);
+            for(Nota nota: notaList){
+                String status;
+                if(nota.notaIsReady()){
+                    status = "Sudah dapat diambil!";
+                }
+                else{
+                    status = "Belum bisa diambil :(";
+                }
+                System.out.printf("- [%d] Status      	: %s%n", nota.getIdNota(), status);
+            }
+        }
     }
-
     private static void handleListUser() {
         // TODO: handle list semua user pada sistem
         if(memberList.length == 0){
             System.out.println("Terdaftar 0 member dalam sistem.");
         }
         else{
-            System.out.printf("Terdaftar %d member dalam sistem%n", memberList.length);
+            System.out.printf("Terdaftar %d member dalam sistem.%n", memberList.length);
             for(Member members: memberList){
                 System.out.printf("- %s : %s%n", members.getId(), members.getNama());
             }
         }
     }
-
     private static void handleAmbilCucian() {
         // TODO: handle ambil cucian
+        System.out.println("Masukan ID nota yang akan diambil:");
+        int idNota = Integer.parseInt(validasiAngka("Validasi ID Nota", "ID nota berbentuk angka!"));
+        boolean idNotaFound = false;
+        Nota notaToRemove = null;
+        for(Nota nota: notaList){ // Cek apakah nota ada atau tidak
+            if(idNota == nota.getIdNota()){
+                idNotaFound = true;
+                notaToRemove = nota;
+            }
+        }
+        if(idNotaFound){
+            if(notaToRemove.notaIsReady()){ // Nota ada dan siap di ambil
+                System.out.printf("Nota dengan ID %d berhasil diambil!%n", idNota);
+                int indexNota = 0; 
+                for(int i = 0; i < notaList.length; i++){ // Mencari index dari nota
+                    if(notaList[i].getIdNota() == idNota){
+                        indexNota = i;
+                    }
+                }
+                // Menghapus objek nota dari notaList
+                Nota[] newNotaList = new Nota[notaList.length - 1]; // Membuat array baru dengan panjang array sebelumnya dikurangi 1
+                for(int i = 0; i < notaList.length; i++){
+                    if(i == indexNota){ // Item yang ingin di hapus tidak dimasukkan ke array baru
+                        continue;
+                    } 
+                    else{
+                        if(i >= indexNota){ // Item yang indexnya lebih dari index benda yang di hapus akan dimasukkan ke array dengan index dikurangi 1
+                            newNotaList[i-1] = notaList[i];
+                        }
+                        else{
+                            newNotaList[i] = notaList[i];
+                        } 
+                    }
+                }
+                notaList = newNotaList;
+            }
+            else{ // Nota ada tapi belum siap di ambil
+                System.out.printf("Nota dengan ID %d gagal diambil!%n", idNota);
+            }
+            
+        }
+        else{ // Nota tidak ditemukan
+            System.out.printf("Nota dengan ID %d tidak ditemukan!%n", idNota);
+        }
     }
-
     private static void handleNextDay() {
+        cal.add(Calendar.DATE, 1);
+        System.out.println("Dek Depe tidur hari ini... zzz...");
+        for(Nota nota: notaList){
+            nota.updateNota();
+            if(nota.notaIsReady()){
+                System.out.printf("Laundry dengan nota ID %d sudah dapat diambil!%n", nota.getIdNota());
+            }
+        }
+        System.out.println("Selamat pagi dunia!\nDek Depe: It's CuciCuci Time.");
         // TODO: handle ganti hari
     }
-
     private static void printMenu() {
         System.out.println("\nSelamat datang di CuciCuci!");
         System.out.printf("Sekarang Tanggal: %s\n", fmt.format(cal.getTime()));
@@ -141,7 +199,6 @@ public class MainMenu {
         System.out.println("[6] Next Day");
         System.out.println("[0] Exit");
     }
-
     private static void showPaket() {
         System.out.println("+-------------Paket-------------+");
         System.out.println("| Express | 1 Hari | 12000 / Kg |");
@@ -149,29 +206,33 @@ public class MainMenu {
         System.out.println("| Reguler | 3 Hari |  7000 / Kg |");
         System.out.println("+-------------------------------+");
     }
-
     public static String validasiAngka(String opsi, String errorMessage){
         String angka;
         boolean angkaValid = false;
         while(true){
             angka = input.nextLine();
-            for(int i = 0; i < angka.length(); i++){
-                if(Character.isDigit(angka.charAt(i))){ // Mengiterasi setiap digit di dan cek apakah digit atau bukan
-                    angkaValid = true;
-                    if(opsi.equals("Validasi Berat") && Character.getNumericValue(angka.charAt(i)) <= 0){ // Jika memvalidasi berat, maka angka harus > 0
+            if(angka.length() != 0){
+                for(int i = 0; i < angka.length(); i++){
+                    if(Character.isDigit(angka.charAt(i))){ // Mengiterasi setiap digit di dan cek apakah digit atau bukan
+                        angkaValid = true;
+                        if(opsi.equals("Validasi Berat") && Character.getNumericValue(angka.charAt(i)) <= 0){ // Jika memvalidasi berat, maka angka harus > 0
+                            System.out.println(errorMessage);
+                            angkaValid = false;
+                            break; // Break dari for loop dan kembali ke awal while loop
+                        }
+                    }
+                    else{ 
                         System.out.println(errorMessage);
                         angkaValid = false;
                         break; // Break dari for loop dan kembali ke awal while loop
                     }
                 }
-                else{ 
-                    System.out.println(errorMessage);
-                    angkaValid = false;
-                    break; // Break dari for loop dan kembali ke awal while loop
+                if(angkaValid){ // Jika angka sudah dipastikan valid, maka akan di return
+                    return angka;
                 }
             }
-            if(angkaValid){ // Jika angka sudah dipastikan valid, maka akan di return
-                return angka;
+            else{
+                System.out.println(errorMessage);
             }
         }
     }

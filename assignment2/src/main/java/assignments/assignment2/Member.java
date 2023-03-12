@@ -1,7 +1,5 @@
 package assignments.assignment2;
 
-import assignments.assignment1.NotaGenerator;
-
 public class Member {
     private String nama, noHp, id;
     private int bonusCounter;
@@ -13,26 +11,24 @@ public class Member {
         this.noHp = noHp;
         this.id = generateId(this.nama, this.noHp);
     }
-
     // TODO: tambahkan methods yang diperlukan untuk class ini
     public String getNama(){
         return this.nama;
     }
-
     public String getNoHp(){
         return this.noHp;
     }
-
     public String getId(){
         return this.id;
     }
-
     public int getBonusCounter(){
         return this.bonusCounter;
     }
-
     public void increaseBonus(){
         this.bonusCounter += 1;
+    }
+    public void resetBonus(){
+        this.bonusCounter = 0;
     }
 
     public static String generateId(String nama, String nomorHP){
