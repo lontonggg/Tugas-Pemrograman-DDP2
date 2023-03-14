@@ -1,37 +1,35 @@
 package assignments.assignment2;
 
 public class Member {
-    private String nama, noHp, id;
+    // Variable untuk tiap instances member
+    private String nama, noHp, id; 
     private int bonusCounter;
 
-    // TODO: tambahkan attributes yang diperlukan untuk class ini
-    public Member(String nama, String noHp) {
-        // TODO: buat constructor untuk class ini
+    public Member(String nama, String noHp) { // Constructor class member
         this.nama = nama;
         this.noHp = noHp;
         this.id = generateId(this.nama, this.noHp);
     }
-    // TODO: tambahkan methods yang diperlukan untuk class ini
-    public String getNama(){
+    public String getNama(){ // Method yang mengambil nama member
         return this.nama;
     }
-    public String getNoHp(){
+    public String getNoHp(){ // Method yang mengambil no HP member
         return this.noHp;
     }
-    public String getId(){
+    public String getId(){ // Method untuk mengambil ID member
         return this.id;
     }
-    public int getBonusCounter(){
+    public int getBonusCounter(){ // Method untuk mengambil bonus counter member
         return this.bonusCounter;
     }
-    public void increaseBonus(){
+    public void increaseBonus(){ // Method untuk menambah bonus counter member
         this.bonusCounter += 1;
     }
-    public void resetBonus(){
+    public void resetBonus(){ // Method untuk mereset bonus counter member
         this.bonusCounter = 0;
     }
-
-    public static String generateId(String nama, String nomorHP){
+    // Method untuk membuat ID member
+    public static String generateId(String nama, String nomorHP){ 
         String[] namaSplitted = nama.split(" ");
         String namaDepan = namaSplitted[0]; // Mengambil nama depan
         int checksum = 0;
@@ -48,9 +46,5 @@ public class Member {
             }
         }
         return String.format("%s-%02d", gabunganNamaHP, checksum % 100);
-    }
-
-    public String toString(){
-        return this.id;
     }
 }
