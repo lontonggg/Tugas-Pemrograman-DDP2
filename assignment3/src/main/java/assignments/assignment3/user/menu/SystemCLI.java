@@ -19,7 +19,6 @@ public abstract class SystemCLI {
      */
     public void login(Scanner in, String inputId, String inputPassword){
         Member authMember = authUser(inputId, inputPassword);
-
         if (authMember != null) {
             this.in = in;
             System.out.println("Login successful!");
@@ -27,7 +26,7 @@ public abstract class SystemCLI {
             return;
         }
 
-        System.out.println("Invalid ID or password.");
+        System.out.println("Invalid ID or password.\n");
     };
 
     /**
@@ -43,10 +42,10 @@ public abstract class SystemCLI {
             displayMenu();
             int choice = in.nextInt();
             in.nextLine();
-            logout = processChoice(choice);
+            logout = processChoice(choice, member);
         }
         loginMember = null;
-        System.out.println("Logging out...");
+        System.out.println("Logging out...\n");
     }
 
     /**
@@ -100,7 +99,7 @@ public abstract class SystemCLI {
      * @param choice -> pilihan pengguna.
      * @return true jika user log.
      */
-    protected abstract boolean processChoice(int choice);
+    protected abstract boolean processChoice(int choice, Member member);
 
     /**
      * Displays specific menu sesuai class yang menginheritnya.

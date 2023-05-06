@@ -13,6 +13,10 @@ public class NotaManager {
      */
     public static void toNextDay(){
         //TODO: implement skip hari
+        cal.add(Calendar.DATE, 1);
+        for(Nota nota: notaList){
+            nota.toNextDay();
+        }
     }
 
     /**
@@ -22,5 +26,9 @@ public class NotaManager {
      */
     public static void addNota(Nota nota){
         //TODO: implement add nota
+        Nota[] newArray = new Nota[notaList.length + 1]; // Membuat array baru dengan panjang lebih 1
+        System.arraycopy(notaList, 0, newArray, 0, notaList.length); // Membuat copy dari array sebelumnya
+        newArray[newArray.length-1] = nota; 
+        notaList = newArray;
     }
 }

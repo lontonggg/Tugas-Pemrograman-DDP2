@@ -31,6 +31,10 @@ public class Member {
      */
     public void addNota(Nota nota) {
         // TODO
+        Nota[] newArray = new Nota[this.notaList.length + 1]; // Membuat array baru dengan panjang lebih 1
+        System.arraycopy(this.notaList, 0, newArray, 0, this.notaList.length); // Membuat copy dari array sebelumnya
+        newArray[newArray.length-1] = nota; 
+        this.notaList = newArray;
     }
 
     /**
@@ -41,7 +45,11 @@ public class Member {
      */
     protected boolean authenticate(String password) {
         // TODO
-        return false;
+        if(password.equals(this.password)){
+            return true;
+        } else{
+            return false;
+        }
     }
 
     // Dibawah ini adalah getter

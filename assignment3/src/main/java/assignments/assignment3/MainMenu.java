@@ -55,7 +55,7 @@ public class MainMenu {
      * Skips ke hari selanjutnya dan mengupdate sistem.
      */
     private void toNextDay() {
-        System.out.println("Kamu tidur hari ini... zzz...");
+        System.out.println("Kamu tidur hari ini... zzz...\n");
         NotaManager.toNextDay();
     }
 
@@ -69,13 +69,14 @@ public class MainMenu {
         String noHp = in.nextLine();
         System.out.println("Masukan password Anda: ");
         String password = in.nextLine();
-
+        
         Member registeredMember = loginManager.register(nama, noHp, password);
         if(registeredMember == null){
-            System.out.printf("User dengan nama %s dan nomor hp %s sudah ada!\n", nama, noHp);
-            return;
+            System.out.printf("User dengan nama %s dan nomor hp %s sudah ada!\n\n", nama, noHp);
         }
-        System.out.printf("Berhasil membuat user dengan ID %s!\n", registeredMember.getId());
+        else{
+            System.out.printf("Berhasil membuat user dengan ID %s!\n\n", registeredMember.getId());
+        }   
     }
 
     /**

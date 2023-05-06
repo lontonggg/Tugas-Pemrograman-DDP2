@@ -1,6 +1,8 @@
 package assignments.assignment3.user.menu;
 
 import assignments.assignment3.nota.Nota;
+import assignments.assignment3.nota.NotaManager;
+import assignments.assignment3.nota.service.LaundryService;
 import assignments.assignment3.user.Employee;
 import assignments.assignment3.user.Member;
 
@@ -27,9 +29,33 @@ public class EmployeeSystem extends SystemCLI {
      * @return true jika user log.
      */
     @Override
-    protected boolean processChoice(int choice) {
+    protected boolean processChoice(int choice, Member member) {
         boolean logout = false;
-        // TODO:
+        if(choice == 1){
+            boolean servicesDone = false;
+            System.out.printf("Stand back! %s beginning to nyuci!\n", member.getNama());
+            for(Nota nota: NotaManager.notaList){
+                for(LaundryService service: nota.getServices()){
+                    servicesDone = service.isDone();
+                    if(service.isDone() == false){
+                        System.out.printf("Nota %d : %s\n", nota.getId(), service.doWork());
+                        break;
+                    }
+                }
+                if(servicesDone){
+                    System.out.printf("Nota %d : %s\n", nota.getId(), "Sudah selesai.");
+                }
+            }
+            
+        }
+        else if(choice == 2){
+            for(Nota nota: notaList){
+                System.out.printf("Nota %d : %s\n", nota.getId(), nota.getNotaStatus());
+            }
+        }
+        else if(choice == 3){
+            logout = true;
+        }
         return logout;
     }
 
