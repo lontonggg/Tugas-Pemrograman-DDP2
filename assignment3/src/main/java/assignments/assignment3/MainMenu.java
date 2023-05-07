@@ -89,7 +89,7 @@ public class MainMenu {
         String inputPassword = in.nextLine();
         SystemCLI systemCLI = loginManager.getSystem(inputId);
         if(systemCLI == null){
-            System.out.println("ID atau password invalid.");
+            System.out.println("ID atau password invalid.\n");
             return;
         }
         systemCLI.login(in, inputId, inputPassword);

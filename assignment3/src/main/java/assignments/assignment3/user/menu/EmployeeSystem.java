@@ -32,26 +32,18 @@ public class EmployeeSystem extends SystemCLI {
     protected boolean processChoice(int choice, Member member) {
         boolean logout = false;
         if(choice == 1){
-            boolean servicesDone = false;
             System.out.printf("Stand back! %s beginning to nyuci!\n", member.getNama());
             for(Nota nota: NotaManager.notaList){
-                for(LaundryService service: nota.getServices()){
-                    servicesDone = service.isDone();
-                    if(service.isDone() == false){
-                        System.out.printf("Nota %d : %s\n", nota.getId(), service.doWork());
-                        break;
-                    }
-                }
-                if(servicesDone){
-                    System.out.printf("Nota %d : %s\n", nota.getId(), "Sudah selesai.");
-                }
+                System.out.println(nota.kerjakan());
             }
+            System.out.println();
             
         }
         else if(choice == 2){
             for(Nota nota: notaList){
-                System.out.printf("Nota %d : %s\n", nota.getId(), nota.getNotaStatus());
+                System.out.println(nota.getNotaStatus());
             }
+            System.out.println();
         }
         else if(choice == 3){
             logout = true;

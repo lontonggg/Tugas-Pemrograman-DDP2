@@ -21,7 +21,7 @@ public abstract class SystemCLI {
         Member authMember = authUser(inputId, inputPassword);
         if (authMember != null) {
             this.in = in;
-            System.out.println("Login successful!");
+            System.out.println("Login successful!\n");
             run(in, authMember);
             return;
         }
@@ -88,7 +88,7 @@ public abstract class SystemCLI {
      * Displays main menu untuk user yang menggunakan sistem.
      */
     protected void displayMenu(){
-        System.out.printf("\nLogin as : %s\nSelamat datang %s!\n\n", loginMember.getId(), loginMember.getNama());
+        System.out.printf("Login as : %s\nSelamat datang %s!\n\n", loginMember.getId(), loginMember.getNama());
         displaySpecificMenu();
         System.out.print("Apa yang ingin Anda lakukan hari ini? ");
     }
