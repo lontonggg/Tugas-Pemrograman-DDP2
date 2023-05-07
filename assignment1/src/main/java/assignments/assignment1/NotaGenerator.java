@@ -119,29 +119,34 @@ public class NotaGenerator {
         System.out.println("Nota Laundry");
         return "ID    : " + id + "\nPaket : " + paket + "\nHarga :\n" + berat + " kg x " + hargaPaketPerKg + " = " + totalHarga + "\nTanggal Terima  : " + tanggalTerima + "\nTanggal Selesai : " + tanggalSelesai;
     }
-    // Method untuk memvalidasi angka (No HP atau Berat)
+    // Method untuk memvalidasi angka (No HP, Berat Cucian, ID Nota)
     public static String validasiAngka(String opsi, String errorMessage){
         String angka;
         boolean angkaValid = false;
         while(true){
             angka = input.nextLine();
-            for(int i = 0; i < angka.length(); i++){
-                if(Character.isDigit(angka.charAt(i))){ // Mengiterasi setiap digit di dan cek apakah digit atau bukan
-                    angkaValid = true;
-                    if(opsi.equals("Validasi Berat") && Character.getNumericValue(angka.charAt(i)) <= 0){ // Jika memvalidasi berat, maka angka harus > 0
+            if(angka.length() != 0){
+                for(int i = 0; i < angka.length(); i++){
+                    if(Character.isDigit(angka.charAt(i))){ // Mengiterasi setiap digit di dan cek apakah digit atau bukan
+                        angkaValid = true;
+                        if(opsi.equals("Validasi Berat") && Character.getNumericValue(angka.charAt(i)) <= 0 && angka.length() == 1){ // Jika memvalidasi berat, maka angka harus > 0
+                            System.out.println(errorMessage);
+                            angkaValid = false;
+                            break; // Break dari for loop dan kembali ke awal while loop
+                        }
+                    }
+                    else{ 
                         System.out.println(errorMessage);
                         angkaValid = false;
                         break; // Break dari for loop dan kembali ke awal while loop
                     }
                 }
-                else{ 
-                    System.out.println(errorMessage);
-                    angkaValid = false;
-                    break; // Break dari for loop dan kembali ke awal while loop
+                if(angkaValid){ // Jika angka sudah dipastikan valid, maka akan di return
+                    return angka;
                 }
             }
-            if(angkaValid){ // Jika angka sudah dipastikan valid, maka akan di return
-                return angka;
+            else{
+                System.out.println(errorMessage);
             }
         }
     }

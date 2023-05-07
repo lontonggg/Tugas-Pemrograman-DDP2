@@ -5,6 +5,7 @@ import assignments.assignment3.user.Member;
 import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.MemberSystem;
 import assignments.assignment3.user.menu.SystemCLI;
+import assignments.assignment1.*;
 
 import java.util.Scanner;
 
@@ -66,7 +67,7 @@ public class MainMenu {
         System.out.println("Masukan nama Anda: ");
         String nama = in.nextLine();
         System.out.println("Masukan nomor handphone Anda: ");
-        String noHp = in.nextLine();
+        String noHp = NotaGenerator.validasiAngka("Validasi No HP", "Nomor HP hanya menerima digit");
         System.out.println("Masukan password Anda: ");
         String password = in.nextLine();
         

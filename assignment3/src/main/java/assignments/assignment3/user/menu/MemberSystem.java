@@ -50,7 +50,7 @@ public class MemberSystem extends SystemCLI {
             System.out.println("Hanya tambah 1000 / kg");
             System.out.print("[Ketik x untuk tidak mau]: ");
             String setrika = in.nextLine();
-            if(setrika.equals("x") == false){ // Jika input bukan x, maka akan menambahkan interface service
+            if(setrika.equalsIgnoreCase("x") == false){ // Jika input bukan x, maka akan menambahkan interface service
                 LaundryService serviceSetrika = new SetrikaService();
                 newNota.addService(serviceSetrika);
             }
@@ -60,7 +60,7 @@ public class MemberSystem extends SystemCLI {
             System.out.println("Cuma 2000 / 4kg, kemudian 500 / kg");
             System.out.print("[Ketik x untuk tidak mau]: ");
             String antar = in.nextLine();
-            if(antar.equals("x") == false){ // Jika input bukan x, maka akan menambahkan interface service
+            if(antar.equalsIgnoreCase("x") == false){ // Jika input bukan x, maka akan menambahkan interface service
                 LaundryService serviceAntar = new AntarService();
                 newNota.addService(serviceAntar);
             }
@@ -68,7 +68,7 @@ public class MemberSystem extends SystemCLI {
             // Menambahkan nota ke array milik member dan juga pada array di notamanager
             member.addNota(newNota);
             NotaManager.addNota(newNota);
-            System.out.println("Nota berhasil dibuat!");
+            System.out.println("Nota berhasil dibuat!\n");
         }
         else if(choice == 2){
             for(Nota nota: member.getNotaList()){ // Print setiap nota milik member

@@ -67,6 +67,7 @@ public class Nota {
                 return "Nota " + this.getId() + " : " + service.doWork(); // Mengerjakan service yang belum dikerjakan
             }
         }
+        this.isDone = true;
         return "Nota " + this.getId() + " : " + "Sudah selesai."; // Jika semua service sudah dikerjakan
     }
 
@@ -143,7 +144,7 @@ public class Nota {
         }
         mainMessage += "\nHarga Akhir: " + this.calculateHarga(); // Menghitung total harga
         if(this.isLate()){ // Jika terjadi keterlambatan
-            mainMessage += " Ada kompensasi keterlambatan " + this.sisaHariPengerjaan * -1 + " * 2000 hari";
+            mainMessage += " Ada kompensasi keterlambatan " + this.sisaHariPengerjaan * -1 + " * 2000 hari\n";
         }
         else{
             mainMessage += "\n";
