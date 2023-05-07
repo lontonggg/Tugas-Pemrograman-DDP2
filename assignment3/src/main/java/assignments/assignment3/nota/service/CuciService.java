@@ -4,15 +4,13 @@ public class CuciService implements LaundryService{
     private int counter = 0;
     @Override
     public String doWork() {
-        // TODO
-        counter++;
+        counter++; // Menambahkan counter setelah dikerjakan
         return "Sedang mencuci...";
     }
 
     @Override
     public boolean isDone() {
-        // TODO
-        if(counter > 0){
+        if(counter > 0){ // JIka telah dikerjakan minimal sekali
             return true;
         }
         else{
@@ -21,8 +19,7 @@ public class CuciService implements LaundryService{
     }
 
     @Override
-    public long getHarga(int berat) {
-        // TODO
+    public long getHarga(int berat) { // Harga untuk cuci selalu 0
         return 0;
     }
 

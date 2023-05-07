@@ -4,15 +4,13 @@ public class SetrikaService implements LaundryService{
     private int counter = 0;
     @Override
     public String doWork() {
-        // TODO
-        counter++;
+        counter++; // Menambahkan counter setiap dikerjakan
         return "Sedang menyetrika...";
     }
 
     @Override
     public boolean isDone() {
-        // TODO
-        if(counter > 0){
+        if(counter > 0){ // Jika sudah pernah dikerjakan minimal sekali
             return true;
         }
         else{
@@ -22,8 +20,7 @@ public class SetrikaService implements LaundryService{
 
     @Override
     public long getHarga(int berat) {
-        // TODO
-        return berat * 1000;
+        return berat * 1000; // Menghitung harga service
     }
 
     @Override

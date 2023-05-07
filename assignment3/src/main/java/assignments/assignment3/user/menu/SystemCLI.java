@@ -25,7 +25,6 @@ public abstract class SystemCLI {
             run(in, authMember);
             return;
         }
-
         System.out.println("Invalid ID or password.\n");
     };
 

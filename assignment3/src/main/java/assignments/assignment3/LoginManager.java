@@ -40,14 +40,13 @@ public class LoginManager {
      * @return Member object yang berhasil mendaftar, return null jika gagal mendaftar.
      */
     public Member register(String nama, String noHp, String password) {
-        // TODO
-        String newId = NotaGenerator.generateId(nama, noHp);
-        if(memberSystem.isMemberExist(newId)){
+        String newId = NotaGenerator.generateId(nama, noHp); // Membuat ID untuk member menggunakan method dari TP1
+        if(memberSystem.isMemberExist(newId)){ // Jika member sudah pernah terdaftar
             return null;
         }
         else{
-            Member newMember = new Member(nama, newId, password);
-            memberSystem.addMember(newMember);
+            Member newMember = new Member(nama, newId, password); // Menginisiasi member baru
+            memberSystem.addMember(newMember); // Menambahkan member ke array di membersystem
             return newMember;
         }
     }

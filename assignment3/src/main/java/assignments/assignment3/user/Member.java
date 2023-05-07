@@ -7,6 +7,7 @@ public class Member {
     protected String nama;
     protected Nota[] notaList = new Nota[0];
 
+    // Constructor object member
     public Member(String nama, String id, String password) {
         this.nama = nama;
         this.id = id;
@@ -29,8 +30,7 @@ public class Member {
      *
      * @param nota Nota object untuk ditambahkan.
      */
-    public void addNota(Nota nota) {
-        // TODO
+    public void addNota(Nota nota) { // Method untuk menambahkan nota ke array
         Nota[] newArray = new Nota[this.notaList.length + 1]; // Membuat array baru dengan panjang lebih 1
         System.arraycopy(this.notaList, 0, newArray, 0, this.notaList.length); // Membuat copy dari array sebelumnya
         newArray[newArray.length-1] = nota; 
@@ -44,16 +44,14 @@ public class Member {
      * @return true jika ID dan password sesuai dengan instance member, false jika tidak.
      */
     protected boolean authenticate(String password) {
-        // TODO
-        if(password.equals(this.password)){
+        if(password.equals(this.password)){ // Jika password yang di input sesuai dengan password member
             return true;
         } else{
             return false;
         }
     }
 
-    // Dibawah ini adalah getter
-
+    // Getter methods
     public String getNama() {
         return nama;
     }

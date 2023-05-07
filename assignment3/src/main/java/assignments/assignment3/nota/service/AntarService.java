@@ -1,20 +1,17 @@
 package assignments.assignment3.nota.service;
 
-import assignments.assignment3.nota.Nota;
-
 public class AntarService implements LaundryService{
     private int counter = 0;
+
     @Override
     public String doWork() {
-        // TODO
-        counter += 1;
+        counter += 1; // Menambahkan counter
         return "Sedang mengantar...";
     }
 
     @Override
     public boolean isDone() {
-        // TODO
-        if(counter > 0){
+        if(counter > 0){ // Jika sudah pernah dikerjakan minimal sekali
             return true;
         }
         else{
@@ -24,8 +21,7 @@ public class AntarService implements LaundryService{
 
     @Override
     public long getHarga(int berat) {
-        // TODO
-        int totalHarga = berat * 500;
+        int totalHarga = berat * 500; // Menghitung harga dari service
         if(totalHarga < 2000){
             totalHarga = 2000;
         }
