@@ -11,6 +11,8 @@ import assignments.assignment4.gui.member.employee.EmployeeSystemGUI;
 import assignments.assignment4.gui.member.member.CreateNotaGUI;
 import assignments.assignment4.gui.member.member.MemberSystemGUI;
 
+
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -41,6 +43,7 @@ public class MainFrame extends JFrame{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(700, 432);
         setVisible(true);
+        setLocationRelativeTo(null);
         loginablePanel = new Loginable[]{
                 employeeSystemGUI,
                 memberSystemGUI,
@@ -84,6 +87,7 @@ public class MainFrame extends JFrame{
      * */
     public void navigateTo(String page){
         // TODO
+        cards.show(mainPanel, page);
     }
 
     /**
@@ -100,6 +104,9 @@ public class MainFrame extends JFrame{
         for (Loginable panel:
                 loginablePanel) {
             // TODO
+            if(panel.login(id, password)){
+                return true;
+            }
         }
         return false;
     }
