@@ -27,20 +27,25 @@ public class LoginGUI extends JPanel {
     private JPanel buttonPanel;
 
     public LoginGUI(LoginManager loginManager) {
-        super(new BorderLayout()); // Setup layout, Feel free to make any changes
+        super(new BorderLayout()); // Inisiasi frame
         this.loginManager = loginManager;
 
-        // Set up main panel, Feel free to make any changes
+        // Panel utama
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        fieldsPanel = new JPanel(new GridLayout(4,1, 10, 55));
+        // Panel untuk textfields dan labels
+        fieldsPanel = new JPanel(new GridLayout(4,1, 10, 40));
+        fieldsPanel.setBorder(BorderFactory.createEmptyBorder(30, 0, 0, 0));
+
+        // Panel untuk buttons
         buttonPanel = new JPanel(new GridLayout(2,1, 50, 30));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 280, 30, 280));
 
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(30, 280, 20, 280));
-
+        // Inisiasi GUI
         initGUI();
 
+        // Menambahkan panel ke frame
         add(mainPanel, BorderLayout.CENTER);
     }
 
@@ -50,19 +55,18 @@ public class LoginGUI extends JPanel {
      * Be creative and have fun!
      * */
     private void initGUI() {
-        // TODO
+
+        // Membuat labels dan fields
         idLabel = new JLabel("Masukkan ID Anda:");
-
         idTextField = new JTextField();
-
         passwordLabel = new JLabel("Masukkan password Anda:");
-
         passwordField = new JPasswordField();
 
+        // Button login 
         loginButton = new JButton("Login");
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                if(idTextField.getText().length() == 0 || passwordField.getPassword().length == 0){
+                if(idTextField.getText().length() == 0 || passwordField.getPassword().length == 0){ // Jika ada fields yang kosong
                     JOptionPane.showMessageDialog(null, "Semua field diatas wajib di isi!", "Empty Field", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
@@ -72,21 +76,23 @@ public class LoginGUI extends JPanel {
             }
         });
 
+        // Button kembali
         backButton = new JButton("Kembali");
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
-                handleBack();
+                handleBack(); 
             }
         });
 
+        // Menambahkan items ke panel masing-masing
         fieldsPanel.add(idLabel);  
         fieldsPanel.add(idTextField);
         fieldsPanel.add(passwordLabel);
         fieldsPanel.add(passwordField);
-
         buttonPanel.add(loginButton);
         buttonPanel.add(backButton);
 
+        // Menambahkan panel bantuan ke panel utama
         mainPanel.add(fieldsPanel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -96,9 +102,9 @@ public class LoginGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "backButton"
      * */
     private void handleBack() {
-        idTextField.setText("");passwordField.setText("");
+        idTextField.setText("");passwordField.setText(""); // Mengosongkan textfields
         MainFrame mainFrame = MainFrame.getInstance();
-        mainFrame.navigateTo(HomeGUI.KEY);
+        mainFrame.navigateTo(HomeGUI.KEY); // Kembali memunculkan home window
     }
 
     /**
@@ -106,7 +112,7 @@ public class LoginGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "loginButton"
      * */
     private void handleLogin() {
-        // TODO
+        // Mengambil isi dari fields
         String id = idTextField.getText();
         String passwordString = "";
         char[] password = passwordField.getPassword();
@@ -114,23 +120,26 @@ public class LoginGUI extends JPanel {
             passwordString += characters;
         }
 
-        idTextField.setText("");passwordField.setText("");
+        // Login member
         SystemCLI systemCLI = loginManager.getSystem(id);
-        if(systemCLI == null){
-            JOptionPane.showMessageDialog(this, String.format("User dengan ID %s tidak ditemukan!", id), "Login Failed", JOptionPane.ERROR_MESSAGE);
+        if(systemCLI == null){ // Jika gagal login
+            JOptionPane.showMessageDialog(this, String.format("ID atau password invalid!", id), "Invalid ID or Password", JOptionPane.ERROR_MESSAGE);
+            idTextField.setText("");passwordField.setText(""); // Mengosongkan fields
         }
         else{
             MainFrame mainFrame = MainFrame.getInstance();
-            if(mainFrame.login(id, passwordString)){
-                if(systemCLI instanceof MemberSystem){
+            if(mainFrame.login(id, passwordString)){ // Jika berhasil login
+                if(systemCLI instanceof MemberSystem){ // Jika member, maka akan memunculkan window untuk member
                     mainFrame.navigateTo(MemberSystemGUI.KEY);
                 }
                 else if(systemCLI instanceof EmployeeSystem){
-                    mainFrame.navigateTo(EmployeeSystemGUI.KEY);
+                    mainFrame.navigateTo(EmployeeSystemGUI.KEY); // Jika employee, maka akan memunculkan window untuk employee
                 }
+                idTextField.setText("");passwordField.setText(""); // Mengosongkan textfield
             }
-            else{
+            else{ // Jika gagal login
                 JOptionPane.showMessageDialog(this, String.format("ID atau password invalid!", id), "Invalid ID or Password", JOptionPane.ERROR_MESSAGE);
+                idTextField.setText("");passwordField.setText(""); // Mengosongkan textfield
             }
         }
     }

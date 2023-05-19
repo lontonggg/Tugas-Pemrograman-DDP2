@@ -107,6 +107,13 @@ public class Nota {
 
     // Method untuk cek status nota apakah sudah selesai dikerjakan atau belum
     public String getNotaStatus(){
+        boolean servicesDone = false; // Counter untuk melihat apakah semua services sudah selesai dikerjakan
+        for(LaundryService service: this.services){
+            isDone = service.isDone();
+        }
+        if(servicesDone){
+            this.isDone = true;
+        }
         if(this.isDone()){
             return "Nota " + this.getId() + " : Sudah selesai.";
         }

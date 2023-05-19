@@ -28,18 +28,21 @@ public class HomeGUI extends JPanel {
 
 
     public HomeGUI(){
-        super(new BorderLayout()); // Setup layout, Feel free to make any changes
+        super(new BorderLayout()); // Inisiasi frame
         this.fmt = NotaManager.fmt;
         this.cal = NotaManager.cal;
 
-        // Set up main panel, Feel free to make any changes
+        // Panel utama
         mainPanel = new JPanel(new BorderLayout());
-        buttonPanel = new JPanel(new GridLayout(3, 1, 50, 50));
 
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(70, 280, 70, 280));
-        
+        // Panel untuk buttons
+        buttonPanel = new JPanel(new GridLayout(3, 1, 70, 70));
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(70, 290, 70, 290));
+
+        // Menginisiasi GUI
         initGUI();
 
+        // Menambahkan panel utama ke frame
         add(mainPanel, BorderLayout.CENTER);
     }
 
@@ -51,10 +54,11 @@ public class HomeGUI extends JPanel {
      * */
 
     private void initGUI() {
+        // Label selamat datang
         titleLabel = new JLabel("Selamat Datang di CuciCuci System!", JLabel.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
 
-        
+        // Button untuk login
         loginButton = new JButton("Login");
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -62,6 +66,7 @@ public class HomeGUI extends JPanel {
             }
         });
 
+        // Button untuk register
         registerButton = new JButton("Register");
         registerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -69,6 +74,7 @@ public class HomeGUI extends JPanel {
             }            
         });
 
+        // Button untuk nextday
         toNextDayButton = new JButton("Next Day");
         toNextDayButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
@@ -76,13 +82,16 @@ public class HomeGUI extends JPanel {
             }
         });
 
+        // Label untuk tanggal
         dateLabel = new JLabel(String.format("Hari ini: %s", fmt.format(cal.getTime())), JLabel.CENTER);
 
+        // Menambahkan buttons ke panel button
         buttonPanel.add(loginButton);
         buttonPanel.add(registerButton);
         buttonPanel.add(toNextDayButton);
 
-        mainPanel.add(titleLabel, BorderLayout.NORTH);
+        // Menambahkan labels dan panel bantuan ke panel utama
+        mainPanel.add(titleLabel, BorderLayout.NORTH); 
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
         mainPanel.add(dateLabel, BorderLayout.SOUTH);
     }
@@ -93,7 +102,7 @@ public class HomeGUI extends JPanel {
      * */
     private static void handleToRegister() {
         MainFrame mainFrame = MainFrame.getInstance();
-        mainFrame.navigateTo(RegisterGUI.KEY);
+        mainFrame.navigateTo(RegisterGUI.KEY); // Lanjut ke register window
     }
 
     /**
@@ -102,7 +111,7 @@ public class HomeGUI extends JPanel {
      * */
     private static void handleToLogin() {
         MainFrame mainFrame = MainFrame.getInstance();
-        mainFrame.navigateTo(LoginGUI.KEY);
+        mainFrame.navigateTo(LoginGUI.KEY); // Kembali ke home window
     }
 
     /**
@@ -110,9 +119,8 @@ public class HomeGUI extends JPanel {
      * Akan dipanggil jika pengguna menekan "toNextDayButton"
      * */
     private void handleNextDay() {
-        toNextDay(); // Menambahkan 1 hari pada calender yang digunakan oleh sistem
-        dateLabel.setText(String.format("Hari ini: %s", fmt.format(cal.getTime())));
+        toNextDay(); // Menjalankan method toNextDay dari TP 3, menambahkan 1 hari ke cal dan mengupdate semua nota
+        dateLabel.setText(String.format("Hari ini: %s", fmt.format(cal.getTime()))); // Mengupdate label
         JOptionPane.showMessageDialog(this, "Kamu tidur hari ini... zzz...", "This is Prince Paul's Bubble Party's ability!", JOptionPane.INFORMATION_MESSAGE);
-        // toNextDay();
     }
 }

@@ -7,7 +7,6 @@ import assignments.assignment4.MainFrame;
 import assignments.assignment4.gui.member.AbstractMemberGUI;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class MemberSystemGUI extends AbstractMemberGUI {
@@ -34,9 +33,8 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * */
     @Override
     protected JButton[] createButtons() {
-        // TODO
-        JButton buttonLaundry = new JButton("Saya ingin laundry");
-        JButton buttonNota = new JButton("Lihat detail nota saya");
+        JButton buttonLaundry = new JButton("Saya ingin laundry"); // Button untuk laundry
+        JButton buttonNota = new JButton("Lihat detail nota saya"); // Button untuk melihat detail nota
         JButton[] buttonList = {buttonLaundry, buttonNota};
         return buttonList;
     }
@@ -60,19 +58,20 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
      * */
     private void showDetailNota() {
-        // TODO
-        JTextArea textArea = new JTextArea(20, 40);
-        Member member = this.getLoggedInMember();
-        if(member.getNotaList().length == 0){
+        JTextArea textArea = new JTextArea(20, 35); // Text area untuk detail nota
+        Member member = this.getLoggedInMember(); // Mengambil instance member yang sedang login
+        if(member.getNotaList().length == 0){ // Jika nota masih kosong
             textArea.setText("Belum pernah laundry di CuciCuci, hiks :'(");
         }
         else{
             String notaLengkap = "";
             for(Nota nota: member.getNotaList()){
-                notaLengkap += nota.toString() + "\n";
+                notaLengkap += nota.toString() + "\n\n"; // Menambahkan detail semua nota
             }
-            textArea.setText(notaLengkap);
+            textArea.setText(notaLengkap); // Mengisi textArea dengan detail nota
         }
+        textArea.setCaretPosition(0); // agar TextArea muncul dari atas
+        textArea.setEditable(false); // Agar TextArea tidak bisa di edit
         JScrollPane scrollPane = new JScrollPane(textArea);
         JOptionPane.showMessageDialog(null, scrollPane, "Detail Nota", JOptionPane.INFORMATION_MESSAGE);
     }
@@ -82,8 +81,7 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
      * */
     private void createNota() {
-        // TODO
         MainFrame mainFrame = MainFrame.getInstance();
-        mainFrame.navigateTo(CreateNotaGUI.KEY);
+        mainFrame.navigateTo(CreateNotaGUI.KEY); // Memunculkan window untuk membuat nota
     }
 }

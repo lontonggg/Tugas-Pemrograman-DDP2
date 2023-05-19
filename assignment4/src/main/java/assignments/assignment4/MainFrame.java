@@ -1,6 +1,6 @@
 package assignments.assignment4;
 import assignments.assignment3.LoginManager;
-import assignments.assignment3.user.Employee;
+// import assignments.assignment3.user.Employee;
 import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.MemberSystem;
 import assignments.assignment4.gui.HomeGUI;
@@ -34,7 +34,7 @@ public class MainFrame extends JFrame{
 
     private MainFrame(){
         super("CuciCuciSystem");
-//        TODO: uncomment code dibawah ini setelah kamu implmentasikan addEmployee pada EmployeeSystem.
+    //     uncomment code dibawah ini setelah kamu implmentasikan addEmployee pada EmployeeSystem.
 //        // for context dari 2 employee baru ini : https://ristek.link/karyawan-baru-cucicuci
 //        employeeSystem.addEmployee(new Employee[]{
 //                new Employee("delta Epsilon Huha Huha", "ImplicitDiff"),
@@ -86,8 +86,7 @@ public class MainFrame extends JFrame{
      * @param page -> key dari halaman yang diinginkan.
      * */
     public void navigateTo(String page){
-        // TODO
-        cards.show(mainPanel, page);
+        cards.show(mainPanel, page); // Untuk mengubah panel yang ditampilkan oleh frame
     }
 
     /**
@@ -101,10 +100,8 @@ public class MainFrame extends JFrame{
      * @return boolean yang menandakan apakah login berhasil atau gagal.
      * */
     public boolean login(String id, String password){
-        for (Loginable panel:
-                loginablePanel) {
-            // TODO
-            if(panel.login(id, password)){
+        for (Loginable panel: loginablePanel) {
+            if(panel.login(id, password)){ // Untuk login ke panel sesuai dengan user
                 return true;
             }
         }
@@ -116,8 +113,7 @@ public class MainFrame extends JFrame{
      * Method untuk logout dari sistem, kemudian menampilkan halaman Home.
      * */
     public void logout(){
-        for (Loginable panel:
-                loginablePanel) {
+        for (Loginable panel: loginablePanel) {
             panel.logout();
         }
         navigateTo(HomeGUI.KEY);
